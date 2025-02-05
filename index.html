@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIで投資データを解析する方法【パン屋向け】</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.8;
+            margin: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 3px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>AIで投資データを解析する方法【パン屋向け】</h1>
+
+    <p>パン屋を経営しながら投資を始めたけれど、「データをどう活用すればいいの？」と思ったことはありませんか？  
+    実は、パンの売上データを分析して最適な仕入れを考えるのと同じように、AIを使えば投資のデータも分析できるのです。  
+    この記事では、Pythonを使った投資データの簡単な解析方法を解説します。</p>
+
+    <h2>📌 目次</h2>
+    <ul>
+        <li><a href="#intro">1. AIと投資データ分析とは？</a></li>
+        <li><a href="#problem">2. パン屋が投資で陥りやすい問題</a></li>
+        <li><a href="#solution">3. Pythonを使った簡単な投資データ分析</a></li>
+        <li><a href="#conclusion">4. まとめ</a></li>
+    </ul>
+
+    <h2 id="intro">1. AIと投資データ分析とは？</h2>
+    <p>AI（人工知能）というと難しく聞こえますが、実は私たちの日常生活にも使われています。</p>
+    <ul>
+        <li>🍞 パンの売上を予測するAI</li>
+        <li>📈 天気データを分析して翌日の気温を予測するAI</li>
+        <li>💰 株価や投資データを分析するAI</li>
+    </ul>
+    <p>つまり、投資データをAIで分析すれば、<strong>どの銘柄が上がるか・下がるかを予測する</strong> ことが可能になるのです。</p>
+
+    <h2 id="problem">2. パン屋が投資で陥りやすい問題</h2>
+    <p>投資を始めたばかりのパン屋さんがよく陥る問題は次の3つです。</p>
+    <ul>
+        <li>📊 <strong>データをどう活用すればいいかわからない</strong></li>
+        <li>⚡ <strong>感覚で売買してしまう</strong>（例：「なんとなく上がりそうだから買う」）</li>
+        <li>⏳ <strong>投資の勉強に時間を割けない</strong>（パン作りが忙しい）</li>
+    </ul>
+    <p>しかし、Pythonを使えば、データ分析を自動化し、効率的に投資判断をすることができます。</p>
+
+    <h2 id="solution">3. Pythonを使った簡単な投資データ分析</h2>
+    <p>それでは、Pythonを使って投資データを簡単に分析する方法を紹介します。</p>
+
+    <h3>✅ 1. Pythonと必要なライブラリをインストール</h3>
+    <p>まずは、Pythonをインストールし、データ分析に必要なライブラリを準備します。</p>
+    <pre><code>pip install pandas matplotlib yfinance</code></pre>
+    <p>これで、データを扱う <code>pandas</code>、グラフを描く <code>matplotlib</code>、投資データを取得する <code>yfinance</code> が使えるようになります。</p>
+
+    <h3>✅ 2. 株価データを取得する</h3>
+    <p>次に、Pythonを使って株価データを取得してみましょう。  
+    例えば、Apple（AAPL）の株価データを取得するには、次のコードを実行します。</p>
+    <pre><code>
+import yfinance as yf
+
+# Appleの株価データを取得
+data = yf.download("AAPL", start="2023-01-01", end="2024-01-01")
+
+# データの最初の5行を表示
+print(data.head())
+    </code></pre>
+
+    <h3>✅ 3. 株価の推移をグラフ化する</h3>
+    <p>株価の変動を視覚的に見ることで、投資の判断がしやすくなります。</p>
+    <pre><code>
+import matplotlib.pyplot as plt
+
+# 株価の推移をグラフ化
+plt.figure(figsize=(10,5))
+plt.plot(data["Close"], label="AAPL Stock Price", color="blue")
+plt.title("Appleの株価推移")
+plt.xlabel("日付")
+plt.ylabel("株価 ($)")
+plt.legend()
+plt.show()
+    </code></pre>
+    <p>このコードを実行すると、Appleの株価推移がグラフとして表示されます。</p>
+
+    <h3>✅ 4. 移動平均線を使った投資判断</h3>
+    <p>投資の判断をする際に、移動平均線を利用するのも一つの方法です。</p>
+    <pre><code>
+# 移動平均線を計算
+data["SMA_50"] = data["Close"].rolling(window=50).mean()
+
+# グラフを表示
+plt.figure(figsize=(10,5))
+plt.plot(data["Close"], label="AAPL Stock Price", color="blue")
+plt.plot(data["SMA_50"], label="50日移動平均", color="red")
+plt.title("Appleの株価と移動平均線")
+plt.xlabel("日付")
+plt.ylabel("株価 ($)")
+plt.legend()
+plt.show()
+    </code></pre>
+    <p>赤い線（移動平均線）と株価の関係を見て、売買の判断がしやすくなります。</p>
+
+    <h2 id="conclusion">4. まとめ</h2>
+    <p>Pythonを使えば、AIを活用して投資データを簡単に分析できます。  
+    この記事で紹介した方法を実践すれば、感覚ではなくデータをもとにした投資判断ができるようになります。</p>
+    <ul>
+        <li>✅ Pythonとライブラリをインストール</li>
+        <li>✅ 株価データを取得する</li>
+        <li>✅ グラフで視覚的に分析する</li>
+        <li>✅ 移動平均線で売買タイミングを判断する</li>
+    </ul>
+    <p>パンの売上をデータで管理するのと同じように、投資もデータ分析を取り入れてみましょう！</p>
+
+</body>
+</html>
